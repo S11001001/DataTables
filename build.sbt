@@ -43,30 +43,10 @@ resourceGenerators in Compile <+= (streams, resourceManaged in Compile,
                                    resourceDirectory in Compile) map {(s, tgt, sd) =>
   val ifile = sd / "js" / "jquery.dataTables.js"
   val ofile = tgt / "com" / "clarifi" / "datatablesstatic" / "media" / "jquery.dataTables.min.js"
-  // this comes from scripts/make.sh, so watch that
-  val minPreamble = """/*
- * File:        jquery.dataTables.min.js
- * Version:     $VERSION
- * Author:      Allan Jardine (www.sprymedia.co.uk)
- * Info:        www.datatables.net
- *
- * Copyright 2008-2012 Allan Jardine, all rights reserved.
- *
- * This source file is free software, under either the GPL v2 license or a
- * BSD style license, available at:
- *   http://datatables.net/license_gpl2
- *   http://datatables.net/license_bsd
- *
- * This source file is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the license files for details.
- */
-"""
-  IO.write(ofile, minPreamble)
   import com.clarifi.datatablesstatic.project._
   Closure.compile(Closure.compiler(s), ifile) match {
     case Left(errs) => throw new RuntimeException(errs.size + " errors")
-    case Right(compiled) => IO.write(ofile, compiled, append = true)
+    case Right(compiled) => IO.write(ofile, compiled, append = false)
   }
   Seq(ofile)
 }
