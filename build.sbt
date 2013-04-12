@@ -29,11 +29,11 @@ excludeFilter in (Compile, unmanagedResources) <<=
       (rbase relativize s.toURI getPath) startsWith "unit_testing/"})
 }
 
-classDirectory in Compile ~= (_ / "com" / "clarifi" / "datatablesstatic")
+classDirectory in Compile ~= (_ / "com" / "clarifi" / "datatablesstatic" / "media")
 
 // Remove precisely as many path components as we added in
 // `classDirectory in Compile`, for the jar output.
 products in Compile <<= (classDirectory in Compile, products in Compile) map {
   (cd, filt) =>
-  (filt filter (cd !=)) :+ (cd / ".." / ".." / "..")
+  (filt filter (cd !=)) :+ (cd / ".." / ".." / ".." / "..")
 }
