@@ -30,9 +30,10 @@ excludeFilter in (Compile, unmanagedResources) <<=
 }
 
 classDirectory in Compile ~= (_ / "com" / "clarifi" / "datatablesstatic")
-/*copyResources in Compile <<= (, copyResources in Compile) map {
-  (, crres) =>
-  println(crres)
-  crres
+
+// Remove precisely as many path components as we added in
+// `classDirectory in Compile`, for the jar output.
+products in Compile <<= (classDirectory in Compile, products in Compile) map {
+  (cd, filt) =>
+  (filt filter (cd !=)) :+ (cd / ".." / ".." / "..")
 }
- */
