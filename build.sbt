@@ -19,4 +19,20 @@ sourcesInBase := false
 
 crossVersion := CrossVersion.Disabled // don't add _2.9.2 to artifact name
 
-resourceDirectory <<= baseDirectory(_ / "media")
+resourceDirectory in Compile <<= baseDirectory(_ / "media")
+
+excludeFilter in (Compile, unmanagedResources) <<=
+  (resourceDirectory in Compile, excludeFilter in (Compile, unmanagedResources)) {
+    (resd, ef) =>
+    val rbase = resd.toURI
+    ef || new SimpleFileFilter({s =>
+      (rbase relativize s.toURI getPath) startsWith "unit_testing/"})
+}
+
+classDirectory in Compile ~= (_ / "com" / "clarifi" / "datatablesstatic")
+/*copyResources in Compile <<= (, copyResources in Compile) map {
+  (, crres) =>
+  println(crres)
+  crres
+}
+ */
