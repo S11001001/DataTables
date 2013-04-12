@@ -42,7 +42,7 @@ products in Compile <<= (classDirectory in Compile, products in Compile) map {
 resourceGenerators in Compile <+= (streams, resourceManaged in Compile,
                                    resourceDirectory in Compile) map {(s, tgt, sd) =>
   val ifile = sd / "js" / "jquery.dataTables.js"
-  val ofile = tgt / "com" / "clarifi" / "datatablesstatic" / "media" / "jquery.dataTables.min.js"
+  val ofile = tgt / "js" / "jquery.dataTables.min.js"
   import com.clarifi.datatablesstatic.project._
   Closure.compile(Closure.compiler(s), ifile) match {
     case Left(errs) => throw new RuntimeException(errs.size + " errors")
