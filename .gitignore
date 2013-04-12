@@ -3,4 +3,5 @@ docs
 cdn
 project/
 target/
+zbuild.sbt
 .DS_Store
