@@ -26,7 +26,8 @@ excludeFilter in (Compile, unmanagedResources) <<=
     (resd, ef) =>
     val rbase = resd.toURI
     ef || new SimpleFileFilter({s =>
-      (rbase relativize s.toURI getPath) startsWith "unit_testing/"})
+      val rel = (rbase relativize s.toURI getPath)
+      Seq("unit_testing/", "src/") exists (rel startsWith)})
 }
 
 classDirectory in Compile ~= (_ / "com" / "clarifi" / "datatablesstatic" / "media")
