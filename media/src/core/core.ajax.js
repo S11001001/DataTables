@@ -38,8 +38,8 @@ function _fnAjaxUpdate( oSettings )
 function _fnAjaxParameters( oSettings )
 {
 	var iColumns = oSettings.aoColumns.length;
-	var aoData = [], mDataProp;
-	var i;
+	var aoData = [], mDataProp, aaSort, aDataSort;
+	var i, j;
 	
 	aoData.push( { "name": "sEcho",          "value": oSettings.iDraw } );
 	aoData.push( { "name": "iColumns",       "value": iColumns } );
@@ -50,7 +50,7 @@ function _fnAjaxParameters( oSettings )
 		
 	for ( i=0 ; i<iColumns ; i++ )
 	{
-	  mDataProp = oSettings.aoColumns[i].mDataProp;
+	  mDataProp = oSettings.aoColumns[i].mData;
 		aoData.push( { "name": "mDataProp_"+i, "value": typeof(mDataProp)==="function" ? 'function' : mDataProp } );
 	}
 	
@@ -70,20 +70,24 @@ function _fnAjaxParameters( oSettings )
 	/* Sorting */
 	if ( oSettings.oFeatures.bSort !== false )
 	{
-		var iFixed = oSettings.aaSortingFixed !== null ? oSettings.aaSortingFixed.length : 0;
-		var iUser = oSettings.aaSorting.length;
-		aoData.push( { "name": "iSortingCols",   "value": iFixed+iUser } );
-		for ( i=0 ; i<iFixed ; i++ )
-		{
-			aoData.push( { "name": "iSortCol_"+i,  "value": oSettings.aaSortingFixed[i][0] } );
-			aoData.push( { "name": "sSortDir_"+i,  "value": oSettings.aaSortingFixed[i][1] } );
-		}
+		var iCounter = 0;
+
+		aaSort = ( oSettings.aaSortingFixed !== null ) ?
+			oSettings.aaSortingFixed.concat( oSettings.aaSorting ) :
+			oSettings.aaSorting.slice();
 		
-		for ( i=0 ; i<iUser ; i++ )
+		for ( i=0 ; i<aaSort.length ; i++ )
 		{
-			aoData.push( { "name": "iSortCol_"+(i+iFixed),  "value": oSettings.aaSorting[i][0] } );
-			aoData.push( { "name": "sSortDir_"+(i+iFixed),  "value": oSettings.aaSorting[i][1] } );
+			aDataSort = oSettings.aoColumns[ aaSort[i][0] ].aDataSort;
+			
+			for ( j=0 ; j<aDataSort.length ; j++ )
+			{
+				aoData.push( { "name": "iSortCol_"+iCounter,  "value": aDataSort[j] } );
+				aoData.push( { "name": "sSortDir_"+iCounter,  "value": aaSort[i][1] } );
+				iCounter++;
+			}
 		}
+		aoData.push( { "name": "iSortingCols",   "value": iCounter } );
 		
 		for ( i=0 ; i<iColumns ; i++ )
 		{
@@ -96,7 +100,7 @@ function _fnAjaxParameters( oSettings )
 
 
 /**
- * Add Ajax parameters from plugins
+ * Add Ajax parameters from plug-ins
  *  @param {object} oSettings dataTables settings object
  *  @param array {objects} aoData name/value pairs to send to the server
  *  @memberof DataTable#oApi
@@ -123,7 +127,7 @@ function _fnAjaxUpdateDraw ( oSettings, json )
 	if ( json.sEcho !== undefined )
 	{
 		/* Protect against old returns over-writing a new one. Possible when you get
-		 * very fast interaction, and later queires are completed much faster
+		 * very fast interaction, and later queries are completed much faster
 		 */
 		if ( json.sEcho*1 < oSettings.iDraw )
 		{

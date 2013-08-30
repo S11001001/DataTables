@@ -22,7 +22,7 @@
 						null,
 						null,
 						null,
-						{ "mDataProp": null }
+						{ "mData": null }
 					]
 				} );
 			} );
@@ -35,7 +35,7 @@
 			</div>
 			
 			<h1>Preamble</h1>
-			<p>In some tables it can be useful to not need to specify any data source for a column, as it's content is automatically generated (for example using fnRender). This is fairly common with add, edit and delete columns for a CRUD interface. You can now use the <b>mDataProp</b> set to <i>null</i> to specify that the column has no data source. DataTables will render this column as empty.</p>
+			<p>In some tables it can be useful to not need to specify any data source for a column, as it's content is automatically generated (for example using fnRender). This is fairly common with add, edit and delete columns for a CRUD interface. You can now use the <b>mData</b> set to <i>null</i> to specify that the column has no data source. DataTables will render this column as empty.</p>
 			
 			<h1>Live example</h1>
 			<div id="dynamic">
@@ -67,7 +67,7 @@
 			null,
 			null,
 			null,
-			{ "mDataProp": null }
+			{ "mData": null }
 		]
 	} );
 } );</pre>
@@ -171,7 +171,6 @@
 					<li><a href="../server_side/jsonp.html">JSONP for a cross domain data source</a></li>
 					<li><a href="../server_side/editable.html">jEditable integration with DataTables</a></li>
 					<li><a href="../server_side/defer_loading.html">Deferred loading of Ajax data</a></li>
-					<li><a href="../server_side/column_ordering.html">Custom column ordering (in callback data)</a></li>
 					<li><a href="../server_side/pipeline.html">Pipelining data (reduce Ajax calls for paging)</a></li>
 				</ul>
 				

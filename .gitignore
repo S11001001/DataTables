@@ -4,3 +4,4 @@ cdn
 target/
 zbuild.sbt
 .DS_Store
+Plugins

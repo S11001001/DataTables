@@ -15,13 +15,14 @@
 			$(document).ready(function() {
 				$('#example').dataTable( {
 					"fnDrawCallback": function ( oSettings ) {
+						var that = this;
+
 						/* Need to redo the counters if filtered or sorted */
 						if ( oSettings.bSorted || oSettings.bFiltered )
 						{
-							for ( var i=0, iLen=oSettings.aiDisplay.length ; i<iLen ; i++ )
-							{
-								$('td:eq(0)', oSettings.aoData[ oSettings.aiDisplay[i] ].nTr ).html( i+1 );
-							}
+							this.$('td:first-child', {"filter":"applied"}).each( function (i) {
+								that.fnUpdate( i+1, this.parentNode, 0, false, false );
+							} );
 						}
 					},
 					"aoColumnDefs": [
@@ -539,10 +540,9 @@
 			/* Need to redo the counters if filtered or sorted */
 			if ( oSettings.bSorted || oSettings.bFiltered )
 			{
-				for ( var i=0, iLen=oSettings.aiDisplay.length ; i&lt;iLen ; i++ )
-				{
-					$('td:eq(0)', oSettings.aoData[ oSettings.aiDisplay[i] ].nTr ).html( i+1 );
-				}
+				this.$('td:first-child', {"filter":"applied"}).each( function (i) {
+					that.fnUpdate( i+1, this.parentNode, 0, false, false );
+				} );
 			}
 		},
 		"aoColumnDefs": [
@@ -647,7 +647,6 @@
 					<li><a href="../server_side/jsonp.html">JSONP for a cross domain data source</a></li>
 					<li><a href="../server_side/editable.html">jEditable integration with DataTables</a></li>
 					<li><a href="../server_side/defer_loading.html">Deferred loading of Ajax data</a></li>
-					<li><a href="../server_side/column_ordering.html">Custom column ordering (in callback data)</a></li>
 					<li><a href="../server_side/pipeline.html">Pipelining data (reduce Ajax calls for paging)</a></li>
 				</ul>
 				
