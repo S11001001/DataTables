@@ -4,7 +4,7 @@ name := "datatables-static"
 
 organization := "com.clarifi"
 
-version := "1.9.0"
+version := "1.9.4"
 
 licenses := Seq("GNU General Public License (GPL), Version 2"
                   -> url("http://www.gnu.org/licenses/old-licenses/gpl-2.0.html"),
